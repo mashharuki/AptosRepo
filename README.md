@@ -22,3 +22,5 @@ Diemのプロジェクトで開発されていたプログラミング言語の�
 5. [話題のL1チェーン「Aptos」とは？概要や特徴を徹底解説【480億円調達済】](https://crypto-times.jp/what-is-aptos/)
 6. [liquidswap](https://liquidswap.trade/)
 7. [liquidswap App](https://eth.liquidswap.trade/swap?outputCurrency=0x7fe8dac51394157811c71bbf74c133a224a9ff44)
+8. [Aptos Explorer](https://explorer.aptoslabs.com/)
+9. [White Paper](https://aptos.dev/aptos-white-paper/aptos-white-paper-index/)
