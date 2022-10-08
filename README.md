@@ -24,3 +24,4 @@ Diemのプロジェクトで開発されていたプログラミング言語の�
 7. [liquidswap App](https://eth.liquidswap.trade/swap?outputCurrency=0x7fe8dac51394157811c71bbf74c133a224a9ff44)
 8. [Aptos Explorer](https://explorer.aptoslabs.com/)
 9. [White Paper](https://aptos.dev/aptos-white-paper/aptos-white-paper-index/)
+10. [Aptos Faucet](https://lib.rs/crates/aptos-faucet)
