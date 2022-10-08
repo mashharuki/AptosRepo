@@ -70,7 +70,7 @@ SUBCOMMANDS:
 
 ##### transfer coinのテストコマンド
 
-`cd sample && npm run transfer_coin`
+`cd sample && npm run transfer_coin`  
 
 レスポンス例
 ```zsh
@@ -92,6 +92,138 @@ Bob: 1000
 === Final Balances ===
 Alice: 99945600
 Bob: 2000
+```
+
+##### simple_nft コマンド
+
+`npm run simple_nft`  
+
+レスポンスの例
+```zsh
+> sample@1.0.0 simple_nft
+> ts-node simple_nft.ts
+
+=== Addresses ===
+Alice: 0x979600b20654944c269abf3ba52d06dfae1d98c74bead66d5ad0d3561d26cd2c
+Bob: 0xcfb65b98f4a3277d04e18f864219ae65e28e03c817754a72345ac6d8eaf9bdea
+
+=== Initial Coin Balances ===
+Alice: 100000000
+Bob: 100000000
+
+=== Creating Collection and Token ===
+Alice's collection: {
+    "description": "Alice's simple collection",
+    "maximum": "18446744073709551615",
+    "mutability_config": {
+        "description": false,
+        "maximum": false,
+        "uri": false
+    },
+    "name": "Alice's",
+    "supply": "1",
+    "uri": "https://alice.com"
+}
+Alice's token balance: 1
+Alice's token data: {
+    "default_properties": {
+        "map": {
+            "data": []
+        }
+    },
+    "description": "Alice's simple token",
+    "largest_property_version": "0",
+    "maximum": "18446744073709551615",
+    "mutability_config": {
+        "description": false,
+        "maximum": false,
+        "properties": false,
+        "royalty": false,
+        "uri": false
+    },
+    "name": "Alice's first token",
+    "royalty": {
+        "payee_address": "0x979600b20654944c269abf3ba52d06dfae1d98c74bead66d5ad0d3561d26cd2c",
+        "royalty_points_denominator": "0",
+        "royalty_points_numerator": "0"
+    },
+    "supply": "1",
+    "uri": "https://aptos.dev/img/nyan.jpeg"
+}
+
+=== Transferring the token to Bob ===
+Alice's token balance: 0
+Bob's token balance: 1
+
+=== Transferring the token back to Alice using MultiAgent ===
+Alice's token balance: 1
+Bob's token balance: 0
+```
+
+##### Create an account and fund it
+
+`aptos init`  
+
+レスポンス例
+```zsh
+Configuring for profile default
+Enter your rest endpoint [Current: None | No input: https://fullnode.devnet.aptoslabs.com/v1]
+
+No rest url given, using https://fullnode.devnet.aptoslabs.com/v1...
+Enter your faucet endpoint [Current: None | No input: https://faucet.devnet.aptoslabs.com | 'skip' to not use a faucet]
+
+No faucet url given, using https://faucet.devnet.aptoslabs.com...
+Enter your private key as a hex literal (0x...) [Current: None | No input: Generate new key (or keep one if present)]
+
+No key given, generating key...
+Account 9b6a840164c194a78218ad758c11b82f68af49469d121a1048ce2f1585c5f1d4 doesn't exist, creating it and funding it with 10000 Octas
+Aptos is now set up for account 9b6a840164c194a78218ad758c11b82f68af49469d121a1048ce2f1585c5f1d4!  Run `aptos help` for more information about commands
+{
+  "Result": "Success"
+}
+```
+
+##### fund account
+
+`cd move-example && aptos account fund-with-faucet --account default`  
+
+レスポンス例
+```zsh
+{
+  "Result": "Added 500000 Octas to account 9b6a840164c194a78218ad758c11b82f68af49469d121a1048ce2f1585c5f1d4"
+}
+```
+
+##### Compile the module
+
+`aptos move compile --named-addresses hello_blockchain=default`  
+
+レスポンス例
+```zsh
+{
+  "Result": [
+    "9b6a840164c194a78218ad758c11b82f68af49469d121a1048ce2f1585c5f1d4::message"
+  ]
+}
+```
+
+##### test the module
+
+`aptos move test --named-addresses hello_blockchain=default`  
+
+レスポンス例
+```zsh
+NCLUDING DEPENDENCY AptosFramework
+INCLUDING DEPENDENCY AptosStdlib
+INCLUDING DEPENDENCY MoveStdlib
+BUILDING Examples
+Running Move unit tests
+[ PASS    ] 0x9b6a840164c194a78218ad758c11b82f68af49469d121a1048ce2f1585c5f1d4::message_tests::sender_can_set_message
+[ PASS    ] 0x9b6a840164c194a78218ad758c11b82f68af49469d121a1048ce2f1585c5f1d4::message::sender_can_set_message
+Test result: OK. Total tests: 2; passed: 2; failed: 0
+{
+  "Result": "Success"
+}
 ```
 
 ### Reference
