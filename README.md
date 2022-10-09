@@ -406,3 +406,4 @@ TypeScriptで接続する場合の書き方はこう
 13. [Discussion Forum](https://forum.aptoslabs.com/top?period=monthly)
 14. [aptos-core](https://github.com/aptos-labs/aptos-core)
 15. [The Move Book](https://move-language.github.io/move/introduction.html)
+16. [Blue Wallet](https://bluemove.net/connect-wallet)
