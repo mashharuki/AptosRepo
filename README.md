@@ -254,6 +254,99 @@ Test result: OK. Total tests: 2; passed: 2; failed: 0
 }
 ```
 
+アドレスを指定して公開する場合  
+`aptos move publish --named-addresses hello_blockchain=0xa7bea4f79092c5f315e4ddf40af2637ace9e0438d22e64587bd3bfcb5ea9c647`  
+
+```zsh
+{
+  "Result": {
+    "transaction_hash": "0xad8671301613cd0bbd0dc6fde9d46c067820ce7263c50475e3c0f69601040bd9",
+    "gas_used": 1435,
+    "gas_unit_price": 100,
+    "sender": "a7bea4f79092c5f315e4ddf40af2637ace9e0438d22e64587bd3bfcb5ea9c647",
+    "sequence_number": 0,
+    "success": true,
+    "timestamp_us": 1665289008408258,
+    "version": 13773984,
+    "vm_status": "Executed successfully"
+  }
+}
+```
+
+Aptos Explorerで確認できるモジュールのABI情報
+
+```json
+{
+  "address": "0xa7bea4f79092c5f315e4ddf40af2637ace9e0438d22e64587bd3bfcb5ea9c647",
+  "name": "message",
+  "friends": [],
+  "exposed_functions": [
+    {
+      "name": "get_message",
+      "visibility": "public",
+      "is_entry": false,
+      "generic_type_params": [],
+      "params": [
+        "address"
+      ],
+      "return": [
+        "0x1::string::String"
+      ]
+    },
+    {
+      "name": "set_message",
+      "visibility": "public",
+      "is_entry": true,
+      "generic_type_params": [],
+      "params": [
+        "signer",
+        "0x1::string::String"
+      ],
+      "return": []
+    }
+  ],
+  "structs": [
+    {
+      "name": "MessageChangeEvent",
+      "is_native": false,
+      "abilities": [
+        "drop",
+        "store"
+      ],
+      "generic_type_params": [],
+      "fields": [
+        {
+          "name": "from_message",
+          "type": "0x1::string::String"
+        },
+        {
+          "name": "to_message",
+          "type": "0x1::string::String"
+        }
+      ]
+    },
+    {
+      "name": "MessageHolder",
+      "is_native": false,
+      "abilities": [
+        "key"
+      ],
+      "generic_type_params": [],
+      "fields": [
+        {
+          "name": "message",
+          "type": "0x1::string::String"
+        },
+        {
+          "name": "message_change_events",
+          "type": "0x1::event::EventHandle<0xa7bea4f79092c5f315e4ddf40af2637ace9e0438d22e64587bd3bfcb5ea9c647::message::MessageChangeEvent>"
+        }
+      ]
+    }
+  ]
+}
+```
+
 #### run function of module
 
 `aptos move run --function-id 'default::message::set_message' --args 'string:hello, blockchain'`  
