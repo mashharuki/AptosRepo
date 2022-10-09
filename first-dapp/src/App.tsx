@@ -1,24 +1,23 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { useState, useEffect } from 'react';
+import logo from './assets/img/logo.svg';
+import './css/App.css';
 
+/**
+ * App Component
+ */
 function App() {
+  // state variable
+  const [address, setAddress] = useState<string | null>(null);
+
+  // hook
+  useEffect(() => {
+    console.log("window:", window.aptos)
+    window.aptos.account().then((data : {address: string}) => setAddress(data.address));
+  }, []);
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <p><code>{ address }</code></p>
     </div>
   );
 }
