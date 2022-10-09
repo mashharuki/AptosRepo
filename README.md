@@ -283,7 +283,19 @@ Test result: OK. Total tests: 2; passed: 2; failed: 0
 
 #### windows aptos
 
-Metamaskの場合は、window.ethereumオブジェクトを利用することになるがAptosの場合は、window.aptosとなる
+Metamaskの場合は、window.ethereumオブジェクトを利用することになるがAptosの場合は、window.aptosとなる。  
+
+TypeScriptで接続する場合の書き方はこう
+
+```ts
+  const init = async() => {
+    // connect
+    await window.aptos.connect();
+    const data = await window.aptos.account(); 
+    // set address
+    setAddress(data.address);
+  }
+```
 
 ### Reference
 1. [Aptos Developer Docs](https://aptos.dev/guides/getting-started/)
