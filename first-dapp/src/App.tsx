@@ -22,11 +22,20 @@ function App() {
   const [address, setAddress] = useState<string | null>(null);
   const [account, setAccount] = useState<Types.AccountData | null>(null);
   const [modules, setModules] = useState<Types.MoveModule[] | any>([]);
+  const [resources, setResources] = useState<Types.MoveResource[] | any>([]);
   const [isSaving, setIsSaving] = useState(false);
 
   // check the account has modules
   const hasModule = modules.some((m: any) => m.abi?.name === 'Message');
+
   const ref = createRef<HTMLTextAreaElement>();
+  const resourceType = `${address}::message::MessageHolder`;
+  const resource = resources.find((r: any) => r.type === resourceType);
+
+  const data = resource?.data as {message: string} | undefined;
+  const message = data?.message;
+  const urlAddress = window.location.pathname.slice(1);
+  const isEditable = !urlAddress;
 
   const publishInstructions = (
     <pre>
@@ -69,23 +78,26 @@ function App() {
       setIsSaving(true);
       // call signAndSubmitTransaction function
       await window.aptos.signAndSubmitTransaction(transaction);
+      alert('send success')
     } finally {
       setIsSaving(false);
+      alert('send fail...')
     }
+  }
+
+  /**
+   * init function
+   */
+  const init = async() => {
+    // connect
+    await window.aptos.connect();
+    const data = await window.aptos.account(); 
+    // set address
+    setAddress(data.address);
   }
 
   // hook
   useEffect(() => {
-    /**
-     * init function
-     */
-    const init = async() => {
-      // connect
-      await window.aptos.connect();
-      const data = await window.aptos.account(); 
-      // set address
-      setAddress(data.address);
-    }
     init();
   }, []);
 
@@ -93,7 +105,16 @@ function App() {
     if (!address) return;
     client.getAccount(address).then(setAccount);
     client.getAccountModules(address).then(setModules);
+    client.getAccountResources(address).then(setResources);
   }, [address]);
+
+  useEffect(() => {
+    if (urlAddress) {
+      setAddress(urlAddress);
+    } else {
+      init();
+    }
+  }, [urlAddress]);
 
   return (
     <div className="App">
@@ -101,11 +122,20 @@ function App() {
       <p><code>{ account?.sequence_number }</code></p>
       {!hasModule ? (
         <form onSubmit={handleSubmit}>
-          <textarea ref={ref} />
-          <input 
-            disabled={isSaving} 
-            type="submit" 
+          <textarea 
+            ref={ref} 
+            defaultValue={message} 
+            readOnly={!isEditable}
           />
+          {isEditable && (
+            <input 
+              disabled={isSaving} 
+              type="submit" 
+            />
+          )}
+          {isEditable && (
+            <a href={address!}>Get public URL</a>
+          )}
         </form>
       ) : publishInstructions}
     </div>
