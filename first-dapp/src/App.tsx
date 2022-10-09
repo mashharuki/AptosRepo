@@ -20,6 +20,7 @@ const client = new AptosClient('https://fullnode.devnet.aptoslabs.com/v1');
 function App() {
   // state variable
   const [address, setAddress] = useState<string | null>(null);
+  const [text, setText] = useState<string>("");
   const [account, setAccount] = useState<Types.AccountData | null>(null);
   const [modules, setModules] = useState<Types.MoveModule[] | any>([]);
   const [resources, setResources] = useState<Types.MoveResource[] | any>([]);
@@ -64,13 +65,13 @@ function App() {
     e.preventDefault();
     if (!ref.current) return;
     // get value
-    const message = ref.current.value;
+    // const message = ref.current.value;
 
     // tx data
     const transaction = {
       type: "entry_function_payload",
       function: `${address}::message::set_message`,
-      arguments: [stringToHex(message)],
+      arguments: [stringToHex(text)],
       type_arguments: [],
     };
 
@@ -79,10 +80,18 @@ function App() {
       // call signAndSubmitTransaction function
       await window.aptos.signAndSubmitTransaction(transaction);
       alert('send success')
+    } catch(e) {
+      alert('send fail...');
     } finally {
       setIsSaving(false);
-      alert('send fail...')
     }
+  }
+
+  /**
+   * get message function
+   */
+  const getMessage = async () => {
+
   }
 
   /**
@@ -122,9 +131,15 @@ function App() {
       <p><code>{ account?.sequence_number }</code></p>
       {!hasModule ? (
         <form onSubmit={handleSubmit}>
+          <input 
+            type="text" 
+            placeholder={message} 
+            onChange={(e) => setText(e.target.value)}
+            id="message" 
+          />
           <textarea 
             ref={ref} 
-            defaultValue={message} 
+            value={message}
             readOnly={!isEditable}
           />
           {isEditable && (
