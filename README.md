@@ -11,6 +11,13 @@ Aptosは、Diemの元メンバーであるMo Shaikh氏・Avery Ching氏が中心
 Diemのプロジェクトで開発されていたプログラミング言語のこと。  
 スマートコントラクトのプラットフォームとしてMove VM(MVM)を採用している。
 
+### Move言語の特徴
+
+- 取引ロジックとスマートコントラクトを分離するために、トランザクションスクリプトとモジュールに分割されている。
+- Libra自体がRust言語で作られていることもあり、Move言語もRustの文法に似ている。
+- コンパイラによって、文法だけでなく、リソースの複製や再利用、破棄などのロジックに対してもチェックされる。
+- eventによるトランザクション制御やGasによる実行制御の機能があり、Ethereumのスマートコントラクトと似ている。
+
 ### Aptos BFTとは
 コンセンサスアルゴリズム「Aptos BFT」を採用している。HotStuffとは、BFT(ビザンチン将軍問題に耐性を持つ)コンセンサスプロトコルのこと。安全性向上のため秘密鍵をローテンションさせる機能や、紛失による損失を防止するために秘密鍵をリカバリー(復元)する新たな機能も開発している。
 
@@ -226,6 +233,50 @@ Test result: OK. Total tests: 2; passed: 2; failed: 0
 }
 ```
 
+##### publish the module
+
+`aptos move publish --named-addresses hello_blockchain=default`  
+
+レスポンス例
+```zsh
+{
+  "Result": {
+    "transaction_hash": "0x9b67f66e7e1de409f2c48cf7e9e5686d3d56ace65fe7c97c85158276e74f25bb",
+    "gas_used": 1435,
+    "gas_unit_price": 100,
+    "sender": "9b6a840164c194a78218ad758c11b82f68af49469d121a1048ce2f1585c5f1d4",
+    "sequence_number": 0,
+    "success": true,
+    "timestamp_us": 1665283845025970,
+    "version": 13692896,
+    "vm_status": "Executed successfully"
+  }
+}
+```
+
+#### run function of module
+
+`aptos move run --function-id 'default::message::set_message' --args 'string:hello, blockchain'`  
+
+レスポンス例
+```zsh
+{
+  "Result": {
+    "transaction_hash": "0x07b152760532ffbe0e9e21799fd57b12d922194ccc477ba26625f0332565fd8f",
+    "gas_used": 257,
+    "gas_unit_price": 100,
+    "sender": "9b6a840164c194a78218ad758c11b82f68af49469d121a1048ce2f1585c5f1d4",
+    "sequence_number": 1,
+    "success": true,
+    "timestamp_us": 1665284009089041,
+    "version": 13696951,
+    "vm_status": "Executed successfully"
+  }
+}
+```
+
+`https://fullnode.devnet.aptoslabs.com/v1/accounts/a345dbfb0c94416589721360f207dcc92ecfe4f06d8ddc1c286f569d59721e5a/resource/0xa345dbfb0c94416589721360f207dcc92ecfe4f06d8ddc1c286f569d59721e5a::message::MessageHolder`
+
 ### Reference
 1. [Aptos Developer Docs](https://aptos.dev/guides/getting-started/)
 2. [【仮想通貨】Aptos(アプトス)とは？今後の見通しや将来性を徹底解説！](https://fisco.jp/media/aptos-about/#:~:text=Aptos%EF%BC%88%E3%82%A2%E3%83%97%E3%83%88%E3%82%B9%EF%BC%89%E3%81%AF%E3%80%81Meta,%E3%82%92%E8%A1%A8%E6%98%8E%E3%81%97%E3%81%A6%E3%81%84%E3%81%BE%E3%81%99%E3%80%82)
@@ -241,3 +292,4 @@ Test result: OK. Total tests: 2; passed: 2; failed: 0
 12. [開発元が未確認のMacアプリケーションを開く](https://support.apple.com/ja-jp/guide/mac-help/mh40616/mac)
 13. [Discussion Forum](https://forum.aptoslabs.com/top?period=monthly)
 14. [aptos-core](https://github.com/aptos-labs/aptos-core)
+15. [The Move Book](https://move-language.github.io/move/introduction.html)
