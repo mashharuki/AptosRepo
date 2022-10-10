@@ -1,11 +1,21 @@
 // Copyright (c) Aptos
 // SPDX-License-Identifier: Apache-2.0
-
 import assert from "assert";
 import fs from "fs";
 import path from "path";
-import { NODE_URL, FAUCET_URL } from "./common";
-import { AptosAccount, AptosClient, TxnBuilderTypes, MaybeHexString, HexString, FaucetClient } from "aptos";
+import { 
+  NODE_URL, 
+  FAUCET_URL 
+} from "./common";
+import { 
+  AptosAccount, 
+  AptosClient, 
+  TxnBuilderTypes, 
+  MaybeHexString, 
+  HexString, 
+  FaucetClient }
+from "aptos";
+
 /**
   This example depends on the MoonCoin.move module having already been published to the destination blockchain.
 

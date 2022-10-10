@@ -9,7 +9,8 @@
     "simple_nft": "ts-node simple_nft.ts",
     "transfer_coin": "ts-node transfer_coin.ts",
     "test": "run-s bcs_transaction multisig_transaction simple_nft transfer_coin",
-    "your_coin": "ts-node your_coin.ts"
+    "compile:my_coin": "cd ../move-example/moon_coin && aptos move compile --named-addresses MoonCoin=0x1a957c006dbcebd9f8dff4024f44341a6da7968bae0b456f1bb6bbfedbd2c817 --save-metadata",
+    "my_coin": "ts-node my_coin.ts ../move-example/moon_coin"
   },
   "keywords": [],
   "author": "",

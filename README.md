@@ -390,6 +390,78 @@ TypeScriptで接続する場合の書き方はこう
   }
 ```
 
+#### Your First Coin tutorial
+
+1. run script
+ `cd sample && yarn && yarn my_coin`  
+
+ レスポンス例
+ ```zsh
+=== Addresses ===
+Alice: 0x5cf018f581409a22b93036ba13e4c26a9c2be954f0194ad06b303e6413f4dc93
+Bob: 0xe336bc5aa5c060538c5a89a2e039509dad7011be7de67ad1cc88d4dcb0233c17
+Update the module with Alice's address, compile, and press enter.
+ ```
+
+2. compile (in the another terminal)  
+ `cd move-example/moon_coin && aptos move compile --named-addresses MoonCoin=<Alice's Address> --save-metadata`  
+
+ レスポンス例
+ ```zsh
+  {
+    "Result": [
+      "5cf018f581409a22b93036ba13e4c26a9c2be954f0194ad06b303e6413f4dc93::moon_coin"
+    ]
+  }
+  ✨  Done in 2.60s.
+ ```
+
+3. press enter
+ 
+ レスポンス例
+ ```zsh
+ === Addresses ===
+Alice: 0x5cf018f581409a22b93036ba13e4c26a9c2be954f0194ad06b303e6413f4dc93
+Bob: 0xe336bc5aa5c060538c5a89a2e039509dad7011be7de67ad1cc88d4dcb0233c17
+Update the module with Alice's address, compile, and press enter.
+Publishing MoonCoin package.
+Bob registers the newly created coin so he can receive it from Alice
+Bob's initial MoonCoin balance: 0.
+Alice mints Bob some of the new coin.
+Bob's updated MoonCoin balance: 100.
+undefined
+✨  Done in 166.96s.
+ ```
+
+#### Moon Coinの中身の実装について
+
+`MoonCoin`モジュールは、`aptos_framework`の`managed_coin`を継承しておりMintなどの関数の実態はこっちに実装されている。  
+実態は`managed_coin.move`や`coin.move`ファイルを参照すること。  
+
+例えばMintの関数は次のように実装されている。  
+
+```rs
+    /// Mint new `Coin` with capability.
+    /// The capability `_cap` should be passed as reference to `MintCapability<CoinType>`.
+    /// Returns minted `Coin`.
+    public fun mint<CoinType>(
+        amount: u64,
+        _cap: &MintCapability<CoinType>,
+    ): Coin<CoinType> acquires CoinInfo {
+        if (amount == 0) {
+            return zero<CoinType>()
+        };
+
+        let maybe_supply = &mut borrow_global_mut<CoinInfo<CoinType>>(coin_address<CoinType>()).supply;
+        if (option::is_some(maybe_supply)) {
+            let supply = option::borrow_mut(maybe_supply);
+            optional_aggregator::add(supply, (amount as u128));
+        };
+
+        Coin<CoinType> { value: amount }
+    }
+```
+
 ### Reference
 1. [Aptos Developer Docs](https://aptos.dev/guides/getting-started/)
 2. [【仮想通貨】Aptos(アプトス)とは？今後の見通しや将来性を徹底解説！](https://fisco.jp/media/aptos-about/#:~:text=Aptos%EF%BC%88%E3%82%A2%E3%83%97%E3%83%88%E3%82%B9%EF%BC%89%E3%81%AF%E3%80%81Meta,%E3%82%92%E8%A1%A8%E6%98%8E%E3%81%97%E3%81%A6%E3%81%84%E3%81%BE%E3%81%99%E3%80%82)
