@@ -34,7 +34,8 @@ function App() {
   const resource = resources.find((r: any) => r.type === resourceType);
 
   const data = resource?.data as {message: string} | undefined;
-  const message = data?.message;
+  console.log("data:", data)
+  const message = data?.message
   const urlAddress = window.location.pathname.slice(1);
   const isEditable = !urlAddress;
 
@@ -85,13 +86,6 @@ function App() {
     } finally {
       setIsSaving(false);
     }
-  }
-
-  /**
-   * get message function
-   */
-  const getMessage = async () => {
-
   }
 
   /**
