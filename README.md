@@ -462,6 +462,56 @@ undefined
     }
 ```
 
+#### HelloBlockchain スマートコントラクトをデプロイする
+
+```
+aptos init
+```
+
+コンパイルする
+
+```
+aptos move compile --package-dir ./../move-example/hello_blockchain/ --named-addresses hello_blockchain=0xa7bea4f79092c5f315e4ddf40af2637ace9e0438d22e64587bd3bfcb5ea9c647
+```
+
+コンパイル結果
+
+```zsh
+{
+  "Result": [
+    "a7bea4f79092c5f315e4ddf40af2637ace9e0438d22e64587bd3bfcb5ea9c647::message"
+  ]
+}
+```
+
+テストコマンド
+
+```zsh
+aptos move test --package-dir ./../move-example/hello_blockchain/ --named-addresses hello_blockchain=0xa7bea4f79092c5f315e4ddf40af2637ace9e0438d22e64587bd3bfcb5ea9c647
+```
+
+テスト結果
+
+```zsh
+INCLUDING DEPENDENCY AptosFramework
+INCLUDING DEPENDENCY AptosStdlib
+INCLUDING DEPENDENCY MoveStdlib
+BUILDING Examples
+Running Move unit tests
+[ PASS    ] 0xa7bea4f79092c5f315e4ddf40af2637ace9e0438d22e64587bd3bfcb5ea9c647::message_tests::sender_can_set_message
+[ PASS    ] 0xa7bea4f79092c5f315e4ddf40af2637ace9e0438d22e64587bd3bfcb5ea9c647::message::sender_can_set_message
+Test result: OK. Total tests: 2; passed: 2; failed: 0
+{
+  "Result": "Success"
+}
+```
+
+デプロイ
+
+```zsh
+aptos move publish --package-dir ./../move-example/hello_blockchain/ --named-addresses hello_blockchain=0xa7bea4f79092c5f315e4ddf40af2637ace9e0438d22e64587bd3bfcb5ea9c647
+```
+
 ### Reference
 1. [Aptos Developer Docs](https://aptos.dev/guides/getting-started/)
 2. [【仮想通貨】Aptos(アプトス)とは？今後の見通しや将来性を徹底解説！](https://fisco.jp/media/aptos-about/#:~:text=Aptos%EF%BC%88%E3%82%A2%E3%83%97%E3%83%88%E3%82%B9%EF%BC%89%E3%81%AF%E3%80%81Meta,%E3%82%92%E8%A1%A8%E6%98%8E%E3%81%97%E3%81%A6%E3%81%84%E3%81%BE%E3%81%99%E3%80%82)

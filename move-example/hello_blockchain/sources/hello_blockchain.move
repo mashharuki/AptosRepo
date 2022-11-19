@@ -1,6 +1,3 @@
-/**
- * hello_blockchain module
- */
 module hello_blockchain::message {
 
     use std::error;
